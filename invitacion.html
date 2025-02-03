@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>San Valentín</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8c9d4; /* Fondo rosado */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      position: relative;
+      z-index: 2;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #d66d9a; /* Color de texto rosado */
+      font-family: 'Arial', sans-serif;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #f26b8a; /* Botones color rosado */
+      color: white;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #ec4f71; /* Botón más oscuro al pasar el ratón */
+    }
+    .heart, .heart-large {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a8/Heart_emoji.png');
+      background-size: cover;
+      z-index: 1;
+    }
+    .heart-large {
+      width: 80px;
+      height: 80px;
+      top: 80px;
+      right: 30px;
+    }
+    .bear {
+      position: absolute;
+      bottom: 20px;
+      left: 10px;
+      width: 50px;
+      height: 50px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/2/23/Emoji_u1f43b.svg') no-repeat center center;
+      background-size: contain;
+      z-index: 1;
+    }
+    .floating-heart {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 80px;
+      color: red;
+      animation: bounce 1.5s ease-in-out infinite;
+      z-index: 0;
+    }
+    @keyframes bounce {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.2); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="container">
+    <h1>¿Quieres ser mi San Valentín?</h1>
+    <div class="buttons">
+      <button id="yesBtn">Sí</button>
+      <button id="noBtn">No</button>
+    </div>
+  </div>
+
+  <!-- Decoración adicional -->
+  <div class="heart"></div>
+  <div class="heart-large"></div>
+  <div class="bear"></div>
+  <div class="floating-heart">❤️</div>
+
+  <script>
+    let noCount = 0;
+
+    const container = document.getElementById("container");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+
+    function resetButtons() {
+      // Regenera los botones cada vez que se presiona "No"
+      document.getElementById("yesBtn").addEventListener("click", () => {
+        container.innerHTML = "<h1>¡Perfecto! Estoy feliz de que hayas aceptado ser mi San Valentín. 💖</h1>";
+        container.innerHTML += "<p>¡Te prometo que será un día especial!</p>";
+        // Bloqueo para que no se pueda salir de la página
+        disableExit();
+      });
+
+      document.getElementById("noBtn").addEventListener("click", () => {
+        noCount++;
+        if (noCount < 3) {
+          container.innerHTML = "<h1>¿Estás segura de que no quieres ser mi San Valentín?</h1>";
+          container.innerHTML += '<div class="buttons"><button id="yesBtn">Sí</button><button id="noBtn">No</button></div>';
+          resetButtons(); // Llama a la función para resetear los botones
+        } else {
+          container.innerHTML = "<h1>¿Estás segura de que no quieres ser mi San Valentín?</h1>";
+          container.innerHTML += "<p>¡Vamos! Sé que en el fondo quieres serlo.</p>";
+          container.innerHTML += '<div class="buttons"><button id="yesBtn">Sí</button><button id="noBtn">No</button></div>';
+          resetButtons(); // Llama a la función para resetear los botones
+        }
+      });
+    }
+
+    // Llama a la función para inicializar los botones
+    resetButtons();
+
+    // Bloqueo de salir de la página
+    function disableExit() {
+      window.history.pushState(null, null, window.location.href);
+      window.onpopstate = function() {
+        window.history.pushState(null, null, window.location.href);
+      };
+    }
+
+  </script>
+
+</body>
+</html>
+
